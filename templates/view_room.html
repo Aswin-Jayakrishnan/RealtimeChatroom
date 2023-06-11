@@ -1,0 +1,139 @@
+{% extends'index.html' %}
+{% block body %}
+
+<style>
+  .form-group {
+            margin-bottom: 20px;
+        }
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+
+.button1 {
+        display: block;
+        width: 40%;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #ff5e08;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.button2 {
+        display: block;
+        width: 40%;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #275fff;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+
+.right-side {
+        flex: 2;
+        padding: 20px;
+    }
+
+
+ .text-box {
+            display: block;
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+               background-color: #007bff;
+            color: white;
+        }
+
+</style>
+ <div class="right-side">
+            <div class="header">View My Chat Rooms</div>
+
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Room Name</th>
+                    <th></th>
+                </tr>
+                {% for i in data %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ i['room'] }}</td>
+
+
+                    {% if i['status']=='accepted' %}
+                        <td><a href="/chat_page?id={{ i['id'] }}" class="button2">Chat</a></td>
+                    {% else %}
+                    <td><a href="/send_joinreq?id={{ i['id'] }}" class="button1">Send Join Request</a></td>
+                {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+
+
+ <div class="header">View Others Chat Rooms</div>
+
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Room Name</th>
+                    <th></th>
+                </tr>
+                {% for i in data2 %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ i['room'] }}</td>
+
+
+                    {% if i['status']=='accepted' %}
+                        <td><a href="/chat_page?id={{ i['rid'] }}" class="button2">Chat</a></td>
+                    {% else %}
+                    <td><a href="/send_joinreq?id={{ i['rid'] }}" class="button1">Send Join Request</a></td>
+                {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+
+
+
+
+
+        </div>
+
+
+
+{% endblock %}

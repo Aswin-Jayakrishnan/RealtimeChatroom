@@ -1,0 +1,216 @@
+{% extends'index.html' %}
+{% block body %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f1f1f1;
+        }
+		 .container {
+            margin-top: 50px;
+        }
+        
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .chat-container {
+            margin-top: 20px;
+        }
+        
+        .user-list {
+            background-color: #fff;
+            border-right: 1px solid #ddd;
+        }
+        
+        .chat-area {
+            background-color: #fff;
+            min-height: 400px;
+            padding: 20px;
+            overflow-y: scroll;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+        }
+        
+        .message .sender {
+            font-weight: bold;
+        }
+        
+        .message .timestamp {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+        }
+        
+        .input-group {
+            margin-top: 20px;
+        }
+        
+        .chat-form {
+            display: flex;
+        }
+        
+        .chat-input {
+            flex: 1;
+            border-radius: 0;
+        }
+        
+        .chat-submit {
+            border-radius: 0;
+        }
+
+          .online {
+            color: green;
+        }
+
+        .offline {
+            color: red;
+        }
+
+    </style>
+
+       <script src="static/jqueryy.js"></script>
+
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="/chat_usr_post">
+        <input type="text"  id="hid" value="{{ rid }}" hidden>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 user-list">
+                <div class="header">
+
+                    <h2>Members</h2>
+                </div>
+                <ul id="user-list">
+                    <li>{{ admin['uname'] }} <span>Online</span></li>
+                    {% for i in user %}
+                    <li>{{ i['uname'] }}  <input type="text" value="{{ i['status'] }}" id="txt" hidden><span id="status"></span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <div class="header">
+                    <h2>Chat Room</h2>
+                </div>
+
+                <div class="chat-container" id="chat-area">
+{#                    <div class="message">#}
+{#                        <span class="sender">User 1:</span>#}
+{#                        <span>Hello!</span>#}
+{#                        <span class="timestamp">12:34 PM</span>#}
+{#                    </div>#}
+
+                       <div id="tbl_msg">
+{#                             <table id="tbl_msg" class="table" border="0">#}
+{##}
+{#                             </table>#}
+{#        {% for message in chat_messages %}#}
+{#            <p><strong>{{ message['uid'] }}:</strong> {{ message['message'] }}</p>#}
+{#        {% endfor %}#}
+    </div>
+
+
+                </div>
+
+
+                <div class="input-group">
+                    <input type="text" class="form-control chat-input" id="message-input" name="message" placeholder="Type your message..." required>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary chat-submit" type="submit" >Send</button>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+        var id,toid;
+        toid = document.getElementById("hid").value;
+{#        alert("hid"+toid);#}
+        toid = toid
+{#        alert("hid   :   ", toid)#}
+        var ajax_call = function() {
+            $.ajax({
+                url: '/chat_usr_chk?id='+toid,
+{#                type: 'post',#}
+{#                data: {idd: toid},#}
+                success: function (response) {
+                    console.log(response,"eeee");
+                    $("#tbl_msg").empty();
+                    var ln = response.length;
+
+                    for (i = 0; i < ln; i++) {
+{#                        var id = response[i]["from_id"];#}
+{#                        var date = response[i]["date"];#}
+                        var message = response[i]["message"];
+                        var user = response[i]["uname"];
+                        var time = response[i]["time"];
+
+{#                        $("#tbl_msg").append("<tr><td style='width: 50%;background-color: #ffffff;border-radius: 10px;'></td><td style='width: 50%;background-color: #78CF8A;border-radius: 10px;'><div class='row'><div class='col-md-6'>ME</div><div class='col-md-6' align='right'>" + user + "</div><div class='col-md-12'><h4>" + message + "</h4></div></div></td></tr>");#}
+                        $("#tbl_msg").append("<p><strong>"+user+": &nbsp </strong>"+message+"&nbsp "+time+"</p> ");
+
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    alert("error   :   ", error)
+                }
+            });
+        };
+        var interval = 800; // 1sec
+        setInterval(ajax_call, interval);
+    });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var statusElement = document.getElementById("status");
+    var textBoxValue = document.getElementById("txt").value;
+    console.log("Text Box Value:", textBoxValue);
+
+    // Simulating online/offline status
+
+        if (textBoxValue=='active'){
+           var isOnline = true;
+        }
+        else{
+          var isOnline = false;
+        }
+
+
+
+
+
+    // Update status text
+    statusElement.textContent = isOnline ? "Online" : "Offline";
+
+    // Add appropriate CSS class
+    statusElement.classList.add(isOnline ? "online" : "offline");
+});
+</script>
+
+</form>
+
+</body>
+</html>
+
+{% endblock %}

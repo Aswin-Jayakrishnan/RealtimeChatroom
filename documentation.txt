@@ -1,0 +1,48 @@
+Real time chat Application Using Flask framework and Mysql Database
+---------------------------------------------------------------------
+
+python version -- 3.6
+installed packages
+
+flask
+pymysql
+vaderSentiment
+//flaskSocket.io
+
+
+
+
+Project file consist of 2 folders namely Static and Templates
+
+1) Templates folder is used to store Html pages
+2) Static folder is used to store the files other than html files like images ,external css file etc..
+
+It consist of 2 Python file: testchatbot.py and dbconnection.py
+The full backend code for the chat application is written in testchatbot.py
+
+dbconnection.py is a python file where the database connection and sql query execution functions are written
+
+
+
+//////////////////////////////////
+==================================
+
+To run the project firstofall run the python file testchatbot.py , there we get a local host address where the application is hosted
+click that link ,which opens in a browser ,
+loads the first page as login page , if the user is a new user then click register button and register
+
+after successfull login , Enters into a home page where user have following functions
+
+1) create chat room , View their own chat room and can able to delete chat room also
+
+2) join chatroom , user can view their chatroom as well as others chatroom
+3) User can send join request to the owner of chatroom ,the user can get access to chat in others chatroom only when he/she send join request and the owner approves
+4) the user also see their chatroom reqeust if anyone sends and can able to accept it
+5) by clicking the chat button inside the joinroom user enter into a interface where left side can see the members inside the particular chat room ,right side chatting option
+
+
+6) here vandersentiment anlysis is used inorder to block offenSive content 
+when user enter the message it will check whether itis offenSive or not .if it is not offensive message is inserted innide the message table(database)
+
+
+
